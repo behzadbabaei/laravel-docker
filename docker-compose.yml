@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  web:
+    container_name: ${APP_NAME}_web
+    build:
+      context: ./docker/web
+    ports:
+      - 9000:80
+    volumes:
+      - ./:/var/www/html/docker/laradocker
+
+  db:
+    container_name: ${APP_NAME}_db
+    image: postgres:10.5
+    ports:
+      - 5432:5432
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_USER=homestead
+      - POSTGRES_DB=homestead
+
+  cache:
+    container_name: ${APP_NAME}_cache
+    image: redis:4.0.11
+    ports:
+      - 6379:6379
